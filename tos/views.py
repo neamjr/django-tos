@@ -72,18 +72,11 @@ def check_tos(request, template_name='tos/tos_check.html',
                 _(u"You cannot login without agreeing to the terms of this site.")
             )
 
-    if DJANGO_VERSION >= (1, 10, 0):
-        return render(request, template_name, {
-            'tos': tos,
-            'redirect_field_name': redirect_field_name,
-            'next': redirect_to,
-        })
-    else:
-        return render_to_response(template_name, {
-            'tos': tos,
-            'redirect_field_name': redirect_field_name,
-            'next': redirect_to,
-        }, RequestContext(request))
+    return render_to_response(template_name, {
+        'tos': tos,
+        'redirect_field_name': redirect_field_name,
+        'next': redirect_to,
+    }, RequestContext(request))
 
 
 @csrf_protect

@@ -8,7 +8,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.sites.models import Site
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render
 from django.template import RequestContext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
@@ -72,11 +72,11 @@ def check_tos(request, template_name='tos/tos_check.html',
                 _(u"You cannot login without agreeing to the terms of this site.")
             )
 
-    return render_to_response(template_name, {
+    return render(request, template_name, {
         'tos': tos,
         'redirect_field_name': redirect_field_name,
         'next': redirect_to,
-    }, RequestContext(request))
+    })
 
 
 @csrf_protect
@@ -118,10 +118,10 @@ def login(request, template_name='registration/login.html',
                 # see: https://docs.djangoproject.com/en/1.6/topics/auth/default/#how-to-log-a-user-in
                 request.session['tos_backend'] = user.backend
 
-                return render_to_response('tos/tos_check.html', {
+                return render(request, 'tos/tos_check.html', {
                     redirect_field_name: redirect_to,
                     'tos': TermsOfService.objects.get_current_tos()
-                }, RequestContext(request))
+                })
 
     else:
         form = authentication_form(request)
@@ -133,9 +133,9 @@ def login(request, template_name='registration/login.html',
     else:
         current_site = get_request_site()(request)
 
-    return render_to_response(template_name, {
+    return render(request, template_name, {
         'form': form,
         redirect_field_name: redirect_to,
         'site': current_site,
         'site_name': current_site.name,
-    }, RequestContext(request))
+    })

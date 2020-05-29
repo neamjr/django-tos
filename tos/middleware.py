@@ -1,7 +1,7 @@
 from django import VERSION as DJANGO_VERSION
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME, SESSION_KEY as session_key
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.utils import deprecation
 from django.utils.cache import add_never_cache_headers
